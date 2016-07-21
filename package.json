@@ -1,9 +1,17 @@
 
 {
   "name": "react-native-pay-tm",
-  "version": "1.2.0",
-  "description": "",
-  "main": "index.js",
+  "version": "1.2.1",
+  "description": "A react native wrapper for PayTM",
+    "main": "index.js",
+    "repository" :{
+	"type" : "git",
+	"url" : "https://github.com/ppsreejith/react-native-paytm"
+    },
+    "_npmUser": {
+    "email": "mailz4sreejith@gmail.com",
+    "name": "ppsreejith"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
