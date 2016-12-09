@@ -59,7 +59,9 @@ RCT_EXPORT_METHOD(startPayment: (NSDictionary *)details)
     
     UIViewController *rootVC = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
 
-    [rootVC presentViewController:txnController animated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+	[rootVC presentViewController:txnController animated:YES completion:nil];
+      });
 }
 
 //Called when a transaction has completed. response dictionary will be having details about Transaction.
