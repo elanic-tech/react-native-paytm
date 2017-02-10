@@ -19,18 +19,7 @@ Alert: Built and tested only for iOS.
       
 
 #### Android
-1. Open up `android/app/src/main/java/[...]/MainApplication.java`
-  - Add `import com.reactlibrary.RNPayTmPackage;` to the imports at the top of the file
-2. Append the following lines to `android/settings.gradle`:
-    ```gradle
-    include ':react-native-paytm'
-    project(':react-native-paytm').projectDir = new File(rootProject.projectDir,   '../node_modules/react-native-paytm/android')
-    ```
-3. Insert the following lines inside the dependencies block in
-`android/app/build.gradle`:
-    ```gradle
-    compile project(':react-native-paytm')
-    ```
+1.  ```react-native link react-native-paytm```
 
 ## Usage
 ```javascript
