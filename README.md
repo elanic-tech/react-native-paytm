@@ -6,10 +6,8 @@ I have fixed some issues, updated the iOS bridge (event emitter), updated Paytm 
 ## Getting started
 
 Alert: Built and tested only for iOS.
-`$ npm install react-native-paytm --save`
 
 ### Manual installation
-
 
 #### iOS
 
@@ -20,7 +18,7 @@ Alert: Built and tested only for iOS.
       
 
 #### Android
-1.  ```react-native link react-native-paytm```
+1. Manually link and add react native to your project
 
 ## Usage
 ```javascript
