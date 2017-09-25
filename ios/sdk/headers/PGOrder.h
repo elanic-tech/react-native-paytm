@@ -2,9 +2,7 @@
 //  PGOrder.h
 //  PaymentsSDK
 //
-//  Created by Mahadevaprabhu K S on 06/05/13.
-//  Copyright (c) 2013 Robosoft. All rights reserved.
-//
+//  Copyright (c) 2012-2015 Paytm Mobile Solutions Ltd. All rights reserved.
 
 #import <Foundation/Foundation.h>
 

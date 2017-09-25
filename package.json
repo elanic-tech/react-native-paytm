@@ -6,11 +6,11 @@
     "main": "index.js",
     "repository" :{
 	"type" : "git",
-	"url" : "https://github.com/ppsreejith/react-native-paytm"
+	"url" : "https://github.com/tejashwikalptaru/react-native-paytm"
     },
     "_npmUser": {
-    "email": "mailz4sreejith@gmail.com",
-    "name": "ppsreejith"
+    "email": "tejashwi.1991@gmail.com",
+    "name": "tejashwikalptaru"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
