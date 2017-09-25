@@ -27,19 +27,17 @@ Alert: Built and tested only for iOS.
 import paytm from 'react-native-paytm';
 
 var details = {
-    generationUrl: "http://somegenerationurl.in/checksumGenerator",
-    validationUrl: "http://somegenerationurl.in/checksumValidator",
-    mid: "YOUR_REGISTERED_MID", // Prod
-    industryType: "YOUR_REGISTERED_INDUSTRY", //Prod
-    website: "YOUR_REGISTERED_WEBSITE", //prod
-    channel: "Your_REGISTERED_CHANNEL",
-    amount: "5",
-    orderId: "someuniquestring",
-    requestType: "DEFAULT",
-    email: "mailz4sreejith@gmail.com",
-    phone: "9988755334",
-    theme: "merchant",
-    custId: "9988344556",
+    mid: data.MID,
+    industryType: data.INDUSTRY_TYPE_ID, //Prod
+    website: data.WEBSITE, //prod
+    channel: data.CHANNEL_ID,
+    amount: data.TXN_AMOUNT,
+    orderId: data.ORDER_ID,
+    email: data.EMAIL,
+    phone: data.MOBILE_NO,
+    custId: data.CUST_ID,
+    checksumhash: data.CHECKSUM,
+    callback: data.CALLBACK_URL,
 };
 paytm.startPayment(details);
 ```
