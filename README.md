@@ -1,7 +1,7 @@
 
 # react-native-paytm
 This library has been forked from https://github.com/elanic-tech/react-native-paytm
-I have fixed some issues, updated the iOS bridge (event emitter), updated Paytm iOS sdk for bitcode and x86-x64, added an example with PHP code on how to generate payment request
+Updated it to work with the latest version of react-native and latest PayTM SDK. Improved the documentaion as well.
 
 ## Getting started
 
