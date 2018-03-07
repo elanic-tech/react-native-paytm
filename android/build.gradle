@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        //noinspection GradleDependency
+        classpath 'com.android.tools.build:gradle:2.2.3'
+    }
+}
 
 apply plugin: 'com.android.library'
 
@@ -20,7 +30,7 @@ android {
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:0.20.+'
+    compile 'com.facebook.react:react-native:+'
     compile files('libs/PGSDK_V2.1.jar')
 }
 

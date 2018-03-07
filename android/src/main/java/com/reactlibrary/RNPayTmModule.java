@@ -47,7 +47,12 @@ public class RNPayTmModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void startPayment(ReadableMap options) {
     Activity currentActivity = getCurrentActivity();
-    PaytmPGService Service = PaytmPGService.getProductionService();
+    PaytmPGService Service;
+    if(options.getString("mode").equals("Production")){
+        Service = PaytmPGService.getProductionService();
+    } else {
+        Service = PaytmPGService.getStagingService();
+    }
     Map<String, String> paramMap = new HashMap<String, String>();
     paramMap.put("ORDER_ID", options.getString("orderId"));
     paramMap.put("MID", options.getString("mid"));
@@ -56,16 +61,18 @@ public class RNPayTmModule extends ReactContextBaseJavaModule {
     paramMap.put("INDUSTRY_TYPE_ID", options.getString("industryType"));
     paramMap.put("WEBSITE", options.getString("website"));
     paramMap.put("TXN_AMOUNT", options.getString("amount"));
-    paramMap.put("THEME", options.getString("theme"));
     paramMap.put("EMAIL", options.getString("email"));
     paramMap.put("MOBILE_NO", options.getString("phone"));
     PaytmOrder Order = new PaytmOrder(paramMap);
 
+/*
     PaytmMerchant Merchant = new PaytmMerchant(
         options.getString("generationUrl"),
         options.getString("validationUrl"));
 
     Service.initialize(Order, Merchant, null);
+*/
+    Service.initialize(Order, null);
 
     Service.startPaymentTransaction(getCurrentActivity(), true, true, new PaytmPaymentTransactionCallback() {
       @Override
@@ -77,23 +84,15 @@ public class RNPayTmModule extends ReactContextBaseJavaModule {
       }
 
       @Override
-      public void onTransactionSuccess(Bundle inResponse) {
-        Log.d("LOG", "Payment Transaction is successful " + inResponse);
+      public void onTransactionResponse(Bundle inResponse) {
+        Log.d("LOG", "Payment Transaction Resnponse " + inResponse);
         WritableMap params = Arguments.fromBundle(inResponse);
-        params.putString("status", "Success");
+        params.putString("status", "Response");
         sendEvent( "PayTMResponse", params);
       }
 
       @Override
-      public void onTransactionFailure(String inErrorMessage, Bundle inResponse) {
-        Log.d("LOG", "Payment Transaction Failed " + inErrorMessage);
-        WritableMap params = Arguments.fromBundle(inResponse);
-        params.putString("status", "Failed");
-        sendEvent( "PayTMResponse", params);
-      }
-
-      @Override
-      public void networkNotAvailable() { 
+      public void networkNotAvailable() {
         Log.d("LOG", "Network Not Available");
         WritableMap params = new WritableNativeMap();
         params.putString("status", "NetworkNotAvailable");
@@ -119,8 +118,16 @@ public class RNPayTmModule extends ReactContextBaseJavaModule {
       // had to be added: NOTE
       @Override
       public void onBackPressedCancelTransaction() {
-        Log.d("LOG", "Cancelled");
+        Log.d("LOG", "Cancelled: Back");
         WritableMap params = new WritableNativeMap();
+        params.putString("status", "Cancelled: Back");
+        sendEvent( "PayTMResponse", params);
+      }
+
+      @Override
+      public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
+        Log.d("LOG", "Cancelled: " + inErrorMessage);
+        WritableMap params = Arguments.fromBundle(inResponse);
         params.putString("status", "Cancelled");
         sendEvent( "PayTMResponse", params);
       }

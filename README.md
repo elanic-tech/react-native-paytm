@@ -20,23 +20,48 @@ Alert: Built and tested only for iOS.
 #### Android
 1. Manually link and add react native to your project
 
+
 ## Usage
 ```javascript
 import paytm from 'react-native-paytm';
 
-var details = {
-    mid: data.MID,
-    industryType: data.INDUSTRY_TYPE_ID, //Prod
-    website: data.WEBSITE, //prod
-    channel: data.CHANNEL_ID,
-    amount: data.TXN_AMOUNT,
-    orderId: data.ORDER_ID,
-    email: data.EMAIL,
-    phone: data.MOBILE_NO,
-    custId: data.CUST_ID,
-    checksumhash: data.CHECKSUM,
-    callback: data.CALLBACK_URL,
+....
+
+static paytmConfig = {
+  MID: "...",
+  WEBSITE: "...",
+  CHANNEL_ID: "...",
+  INDUSTRY_TYPE_ID: "...",
+  CALLBACK_URL: "...",
 };
-paytm.startPayment(details);
+
+componentWillMount(){
+    ...
+    this.addListenerOn(DeviceEventEmitter, 'keyboardWillShow', this.onPayTmResponse);
+    ...
+};
+
+onPayTmResponse(response) {
+  // Process Response
+  console.log(response);
+}
+
+runTransaction(amount, customerId, orderId, mobile, email, checkSum) {
+    var details = {
+        mode: 'Staging', // 'Staging' or 'Production'
+        mid: paytmConfig.MID,
+        industryType: paytmConfig.INDUSTRY_TYPE_ID, //Prod
+        website: paytmConfig.WEBSITE, //prod
+        channel: paytmConfig.CHANNEL_ID,
+        amount: amount,
+        orderId: orderId,
+        email: email,
+        phone: mobile,
+        custId: customerId,
+        checksumhash: checkSum,
+        callback: paytmConfig.CALLBACK_URL,
+    };
+    paytm.startPayment(details);
+}
 ```
   

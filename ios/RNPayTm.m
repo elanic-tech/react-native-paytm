@@ -37,7 +37,15 @@ RCT_EXPORT_METHOD(startPayment: (NSDictionary *)details)
     
     //PGTransactionViewController and set the serverType to eServerTypeProduction
     txnController = [[PGTransactionViewController alloc] initTransactionForOrder:order];
-    txnController.serverType = eServerTypeStaging;
+    if ([details[@"mode"] isEqualToString:@"Production"])
+    {
+        txnController.serverType = eServerTypeProduction;
+    }
+    else
+    {
+        txnController.serverType = eServerTypeStaging;
+    }
+
     txnController.merchant = mc;
     txnController.delegate = self;
     txnController.title = @"Paytm payment";

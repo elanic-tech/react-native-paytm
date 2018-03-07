@@ -1,6 +1,3 @@
 
 import { NativeModules } from 'react-native';
-
-const { RNPayTm } = NativeModules;
-
-export default RNPayTm;
+export default NativeModules.RNPayTm;
