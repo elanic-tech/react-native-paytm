@@ -7,7 +7,12 @@ I have fixed some issues, updated the iOS bridge (event emitter), updated Paytm 
 
 Alert: Built and tested only for iOS.
 
-### Manual installation
+### installation
+
+#### Android
+````bash
+react-native link react-native-paytm
+````
 
 #### iOS
 
@@ -17,13 +22,10 @@ Alert: Built and tested only for iOS.
 4. Run your project (`Cmd+R`)<
       
 
-#### Android
-1. Manually link and add react native to your project
-
-
 ## Usage
 ```javascript
 import paytm from 'react-native-paytm';
+import { ..., DeviceEventEmitter, ... } from 'react-native';
 
 ....
 
@@ -37,7 +39,7 @@ static paytmConfig = {
 
 componentWillMount(){
     ...
-    this.addListenerOn(DeviceEventEmitter, 'keyboardWillShow', this.onPayTmResponse);
+    DeviceEventEmitter.addListener('PayTMResponse', this.onPayTmResponse);
     ...
 };
 
