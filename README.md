@@ -29,19 +29,20 @@ import { ..., DeviceEventEmitter, ... } from 'react-native';
 
 ....
 
-static paytmConfig = {
-  MID: "...",
-  WEBSITE: "...",
-  CHANNEL_ID: "...",
-  INDUSTRY_TYPE_ID: "...",
-  CALLBACK_URL: "...",
-};
+// Daat received from PayTM
+const paytmConfig = {
+  MID: '...',
+  WEBSITE: '...',
+  CHANNEL_ID: '...',
+  INDUSTRY_TYPE_ID: '...',
+  CALLBACK_URL: 'https://securegw.paytm.in/theia/paytmCallback?ORDER_ID='
+}
 
 componentWillMount(){
     ...
     DeviceEventEmitter.addListener('PayTMResponse', this.onPayTmResponse);
     ...
-};
+}
 
 onPayTmResponse(response) {
   // Process Response
@@ -49,19 +50,20 @@ onPayTmResponse(response) {
 }
 
 runTransaction(amount, customerId, orderId, mobile, email, checkSum) {
-    var details = {
-        mode: 'Staging', // 'Staging' or 'Production'
-        mid: paytmConfig.MID,
-        industryType: paytmConfig.INDUSTRY_TYPE_ID, //Prod
-        website: paytmConfig.WEBSITE, //prod
-        channel: paytmConfig.CHANNEL_ID,
-        amount: amount,
-        orderId: orderId,
-        email: email,
-        phone: mobile,
-        custId: customerId,
-        checksumhash: checkSum,
-        callback: paytmConfig.CALLBACK_URL,
+    const callbackUrl = `${paytmConfig.CALLBACK_URL}${orderId}`;
+    const details = {
+      mode: 'Staging', // 'Staging' or 'Production'
+      mid: paytmConfig.MID,
+      industryType: paytmConfig.INDUSTRY_TYPE_ID,
+      website: paytmConfig.WEBSITE,
+      channel: paytmConfig.CHANNEL_ID,
+      amount: `${amount}`, // String
+      orderId: orderId, // String
+      email: email, // String
+      phone: mobile, // String
+      custId: customerId, // String
+      checksumhash: checkSum, //From your server using PayTM Checksum Utility 
+      callback: callbackUrl
     };
     paytm.startPayment(details);
 }
