@@ -25,7 +25,7 @@ react-native link react-native-paytm
 ## Usage
 ```javascript
 import paytm from 'react-native-paytm';
-import { ..., DeviceEventEmitter, ... } from 'react-native';
+import { ..., Platform, DeviceEventEmitter, NativeModules, NativeEventEmitter, ... } from 'react-native';
 
 ....
 
@@ -40,12 +40,20 @@ const paytmConfig = {
 
 componentWillMount(){
     ...
-    DeviceEventEmitter.addListener('PayTMResponse', this.onPayTmResponse);
+	if(Platform.OS == 'ios'){
+      const { RNPayTm } = NativeModules
+      const emitter = new NativeEventEmitter(RNPayTm)
+      emitter.addListener('PayTMResponse', this.onPayTmResponse)
+    }else{
+      DeviceEventEmitter.addListener('PayTMResponse', this.onPayTmResponse)
+    }
     ...
 }
 
 onPayTmResponse(response) {
   // Process Response
+  // response.response in case of iOS
+  // reponse in case of Android
   console.log(response);
 }
 
