@@ -2,10 +2,7 @@
 //  PGTransactionViewController.h
 //  PaymentsSDK
 //
-//  Created by Pradeep Udupi on 12/12/12.
-//  Copyright (c) 2012-2013 Paytm Mobile Solutions Ltd. All rights reserved.
-//  Written under contract by Robosoft Technologies Pvt Ltd.
-//
+//  Copyright (c) 2012-2015 Paytm Mobile Solutions Ltd. All rights reserved.
 
 #import <UIKit/UIKit.h>
 
@@ -30,24 +27,18 @@ typedef enum {
 @protocol PGTransactionDelegate <NSObject>
 
 @required
-
 //Called when a transaction has completed. response dictionary will be having details about Transaction.
-- (void)didSucceedTransaction:(PGTransactionViewController *)controller
-                    response:(NSDictionary *)response;
 
-//Called when a transaction is failed with any reason. response dictionary will be having details about failed Transaction.
-- (void)didFailTransaction:(PGTransactionViewController *)controller
-                    error:(NSError *)error
-                 response:(NSDictionary *)response;
+-(void)didFinishedResponse:(PGTransactionViewController *)controller response:(NSString *)responseString;
 
-//Called when a transaction is Canceled by User. response dictionary will be having details about Canceled Transaction.
-- (void)didCancelTransaction:(PGTransactionViewController *)controller
-                      error:(NSError *)error
-                   response:(NSDictionary *)response;
-@optional
+//Called when a user has been cancelled the transaction.
 
-//Called when CHeckSum HASH Generation completes either by PG_Server Or Merchant server.
-- (void)didFinishCASTransaction:(PGTransactionViewController *)controller response:(NSDictionary *)response;
+-(void)didCancelTrasaction:(PGTransactionViewController *)controller;
+
+//Called when a required parameter is missing.
+
+-(void)errorMisssingParameter:(PGTransactionViewController *)controller error:(NSError *) error;
+
 @end
 
 
@@ -76,7 +67,7 @@ typedef enum {
 /*
  Set this to true to enable the logging of the communication
  */
-@property (nonatomic, assign) BOOL loggingEnabled;
+@property (nonatomic, assign, setter=setLoggingEnabled:) BOOL loggingEnabled;
 
 /*
  Set a server Type on which the transaction should run

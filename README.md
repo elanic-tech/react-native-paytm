@@ -1,14 +1,18 @@
 
 # react-native-paytm
-
+This library has been forked from https://github.com/elanic-tech/react-native-paytm
+Updated it to work with the latest version of react-native and latest PayTM SDK. Improved the documentaion as well.
 
 ## Getting started
 
 Alert: Built and tested only for iOS.
-`$ npm install react-native-paytm --save`
 
-### Manual installation
+### installation
 
+#### Android
+````bash
+react-native link react-native-paytm
+````
 
 #### iOS
 
@@ -18,28 +22,58 @@ Alert: Built and tested only for iOS.
 4. Run your project (`Cmd+R`)<
       
 
-#### Android
-1.  ```react-native link react-native-paytm```
-
 ## Usage
 ```javascript
 import paytm from 'react-native-paytm';
+import { ..., Platform, DeviceEventEmitter, NativeModules, NativeEventEmitter, ... } from 'react-native';
 
-var details = {
-    generationUrl: "http://somegenerationurl.in/checksumGenerator",
-    validationUrl: "http://somegenerationurl.in/checksumValidator",
-    mid: "YOUR_REGISTERED_MID", // Prod
-    industryType: "YOUR_REGISTERED_INDUSTRY", //Prod
-    website: "YOUR_REGISTERED_WEBSITE", //prod
-    channel: "Your_REGISTERED_CHANNEL",
-    amount: "5",
-    orderId: "someuniquestring",
-    requestType: "DEFAULT",
-    email: "mailz4sreejith@gmail.com",
-    phone: "9988755334",
-    theme: "merchant",
-    custId: "9988344556",
-};
-paytm.startPayment(details);
+....
+
+// Daat received from PayTM
+const paytmConfig = {
+  MID: '...',
+  WEBSITE: '...',
+  CHANNEL_ID: '...',
+  INDUSTRY_TYPE_ID: '...',
+  CALLBACK_URL: 'https://securegw.paytm.in/theia/paytmCallback?ORDER_ID='
+}
+
+componentWillMount(){
+    ...
+	if(Platform.OS == 'ios'){
+      const { RNPayTm } = NativeModules
+      const emitter = new NativeEventEmitter(RNPayTm)
+      emitter.addListener('PayTMResponse', this.onPayTmResponse)
+    }else{
+      DeviceEventEmitter.addListener('PayTMResponse', this.onPayTmResponse)
+    }
+    ...
+}
+
+onPayTmResponse(response) {
+  // Process Response
+  // response.response in case of iOS
+  // reponse in case of Android
+  console.log(response);
+}
+
+runTransaction(amount, customerId, orderId, mobile, email, checkSum) {
+    const callbackUrl = `${paytmConfig.CALLBACK_URL}${orderId}`;
+    const details = {
+      mode: 'Staging', // 'Staging' or 'Production'
+      mid: paytmConfig.MID,
+      industryType: paytmConfig.INDUSTRY_TYPE_ID,
+      website: paytmConfig.WEBSITE,
+      channel: paytmConfig.CHANNEL_ID,
+      amount: `${amount}`, // String
+      orderId: orderId, // String
+      email: email, // String
+      phone: mobile, // String
+      custId: customerId, // String
+      checksumhash: checkSum, //From your server using PayTM Checksum Utility 
+      callback: callbackUrl
+    };
+    paytm.startPayment(details);
+}
 ```
   

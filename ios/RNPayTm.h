@@ -1,8 +1,9 @@
 
-#import "RCTBridgeModule.h"
+#import <React/RCTBridgeModule.h>
+#import <React/RCTEventEmitter.h>
 #import "sdk/headers/PaymentsSDK.h"
 
-@interface RNPayTm : NSObject <RCTBridgeModule>
+@interface RNPayTm : RCTEventEmitter <RCTBridgeModule>
 
 @end
   

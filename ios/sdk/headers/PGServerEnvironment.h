@@ -2,10 +2,7 @@
 //  PGServerEnvironment.h
 //  PaymentsSDK
 //
-//  Created by Pradeep Udupi on 12/12/12.
-//  Copyright (c) 2012-2013 Paytm Mobile Solutions Ltd. All rights reserved.
-//  Written under contract by Robosoft Technologies Pvt Ltd.
-//
+//  Copyright (c) 2012-2015 Paytm Mobile Solutions Ltd. All rights reserved.
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
