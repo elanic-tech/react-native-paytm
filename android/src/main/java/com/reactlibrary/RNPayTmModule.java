@@ -65,6 +65,14 @@ public class RNPayTmModule extends ReactContextBaseJavaModule {
     paramMap.put("MOBILE_NO", options.getString("phone"));
     paramMap.put("CALLBACK_URL", options.getString("callback"));
     paramMap.put("CHECKSUMHASH", options.getString("checksumhash"));
+    paramMap.put("SUBS_AMOUNT_TYPE", options.getString("subsAmountType"));
+    paramMap.put("SUBS_ENABLE_RETRY", options.getString("subsEnableRetry"));
+    paramMap.put("SUBS_EXPIRY_DATE", options.getString("subsExpiryDate"));
+    paramMap.put("SUBS_FREQUENCY_UNIT", options.getString("subsFrequencyUnit"));
+    paramMap.put("SUBS_PPI_ONLY", options.getString("subsPpiOnly"));
+    paramMap.put("SUBS_RETRY_COUNT", options.getString("subsRetryCount"));
+    paramMap.put("SUBS_SERVICE_ID", options.getString("subsServiceId"));
+    paramMap.put("REQUEST_TYPE", options.getString("requestType"));
     PaytmOrder Order = new PaytmOrder(paramMap);
 
 /*

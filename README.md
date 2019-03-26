@@ -35,12 +35,13 @@ const paytmConfig = {
   WEBSITE: '...',
   CHANNEL_ID: '...',
   INDUSTRY_TYPE_ID: '...',
+  REQUEST_TYPE: 'DEFAULT',
   CALLBACK_URL: 'https://securegw.paytm.in/theia/paytmCallback?ORDER_ID='
 }
 
 componentWillMount(){
     ...
-	if(Platform.OS == 'ios'){
+  if(Platform.OS == 'ios'){
       const { RNPayTm } = NativeModules
       const emitter = new NativeEventEmitter(RNPayTm)
       emitter.addListener('PayTMResponse', this.onPayTmResponse)
@@ -57,7 +58,7 @@ onPayTmResponse(response) {
   console.log(response);
 }
 
-runTransaction(amount, customerId, orderId, mobile, email, checkSum) {
+runTransaction(amount, customerId, orderId, mobile, email, checkSum, isSubscription, subsServiceId, subsAmountType, subsEnableRetry. subsExpiryDate, subsFrequencyUnit, subsPpiOnly) {
     const callbackUrl = `${paytmConfig.CALLBACK_URL}${orderId}`;
     const details = {
       mode: 'Staging', // 'Staging' or 'Production'
@@ -65,6 +66,7 @@ runTransaction(amount, customerId, orderId, mobile, email, checkSum) {
       industryType: paytmConfig.INDUSTRY_TYPE_ID,
       website: paytmConfig.WEBSITE,
       channel: paytmConfig.CHANNEL_ID,
+      requestType: paytmConfig.REQUEST_TYPE,
       amount: `${amount}`, // String
       orderId: orderId, // String
       email: email, // String
@@ -73,6 +75,19 @@ runTransaction(amount, customerId, orderId, mobile, email, checkSum) {
       checksumhash: checkSum, //From your server using PayTM Checksum Utility 
       callback: callbackUrl
     };
+  
+    // For paytm subscription
+    if(isSubscription){
+      details.requestType = "SUBSCRIBE"; //String
+      details.subsServiceId = subsServiceId //String "SUB-XXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      details.subsAmountType = subsAmountType || "FIX"; //String
+      details.subsEnableRetry = subsEnableRetry || "1"; //String
+      details.subsExpiryDate = subsExpiryDate // String "2022-01-26"
+      details.subsFrequencyUnit = subsFrequencyUnit // String "7"
+      details.subsPpiOnly = subsPpiOnly //String "Y"
+      details.subsRetryCount = subsRetryCount //String "100"
+    }
+    
     paytm.startPayment(details);
 }
 ```
