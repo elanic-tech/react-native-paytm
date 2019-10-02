@@ -5,10 +5,10 @@ This is a sample code for reference about how to properly use Paytm with React N
 import React, { Component } from 'react';
 import { TouchableHighlight, Alert, View, Text, StyleSheet, Dimensions, NativeModules,ActivityIndicator, DeviceEventEmitter, TextInput } from 'react-native';
 import paytm from 'react-native-paytm';
-var {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 
-var paytmEvent = null;
+let paytmEvent = null;
 
 class Button extends Component{
     render(){
@@ -56,9 +56,9 @@ class Addmoney extends Component{
     _startPayment(){
         if(this.state.processing) return;
 
-        var uid = 27; //user id for user who is initiating the payment
-        var api_key = 'sample_api_key'; //any API key to authenticate REST end point
-        var amount = parseInt(this.state.amount);
+        let uid = 27; //user id for user who is initiating the payment
+        let api_key = 'sample_api_key'; //any API key to authenticate REST end point
+        let amount = parseInt(this.state.amount);
        
         if(amount == 0 || amount == ''){
             Alert.alert('Please select or enter a valid amount'); return;
@@ -73,7 +73,7 @@ class Addmoney extends Component{
         amount = amount.toString(); //amount must be passed a string else paytm will crash if amount is int type
 
         this.setState({processing: true, payment_text: 'Requesting payment, please wait...'});
-        var type = 1; //credit
+        let type = 1; //credit
         //start transaction, generate request from server
         api.generatePaymentRequest(uid, api_key, amount, type)
             .then(response => {
@@ -83,10 +83,10 @@ class Addmoney extends Component{
                 else{
                     //this response from REST endpoint will contain all the required data to start payment
                     //please check php file for sample
-                    var data = response.paramList;
+                    const data = response.paramList;
                     this.setState({order_id: data.ORDER_ID});
 
-                    var details = {
+                    const details = {
                         mid: data.MID,
                         industryType: data.INDUSTRY_TYPE_ID, //Prod
                         website: data.WEBSITE, //prod
@@ -108,9 +108,9 @@ class Addmoney extends Component{
             });
     }
     _handlePaytmResponse(body){
-        var uid = 27; //user id for user who is initiating the payment
-        var api_key = 'sample_api_key'; //any API key to authenticate REST end point
-        var order_id = this.state.order_id;
+        let uid = 27; //user id for user who is initiating the payment
+        let api_key = 'sample_api_key'; //any API key to authenticate REST end point
+        const order_id = this.state.order_id;
 
         this.setState({payment_text: 'Verifying payment status, please wait...'});
         api.verifyPaymentRequest(uid, api_key, order_id)
@@ -119,10 +119,10 @@ class Addmoney extends Component{
                     Alert.alert('Unauthorized REST API request');
                 }
                 else{
-                    var result = response.result;
-                    if(result == "Success"){
+                    const result = response.result;
+                    if (result == "Success"){
                         Alert.alert('Transaction successful', 'We have added money to your account, enjoy your game');
-                    }else{
+                    } else{
                         console.log(body); //check paytm response for any fail case message and details
                         Alert.alert('Failed', result);
                     }
@@ -190,4 +190,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = Addmoney;
+export default Addmoney;
